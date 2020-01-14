@@ -22,7 +22,7 @@ matrix:
     before_install:
     # Sanity check of travis config.
     # Install yq-3.0.0beta which preserve comments. TODO update to package when released
-    - curl -o yq https://github.com/mikefarah/yq/releases/download/3.0.0-beta/yq_linux_amd64
+    - curl -Lo yq https://github.com/mikefarah/yq/releases/download/3.0.0-beta/yq_linux_amd64
     - chmod +x yq
     - ./yq r .travis.yml > travis-yq.yml
     - cmp -s .travis.yml travis-yq.yml && echo "travis.yml looks ok" || (echo "Run
