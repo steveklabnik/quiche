@@ -11,9 +11,9 @@
 QUICHE_DIR=/quiche
 WWW_DIR=/www
 DOWNLOAD_DIR=/downloads
-QUICHE_CLIENT=client
-QUICHE_SERVER=server
-QUICHE_CLIENT_OPT="--no-verify"
+QUICHE_CLIENT=quiche-client
+QUICHE_SERVER=quiche-server
+QUICHE_CLIENT_OPT="--no-verify --dump-responses ${DOWNLOAD_DIR}"
 QUICHE_SERVER_OPT="--no-retry"
 LOG=/logs/log.txt
 
@@ -34,8 +34,6 @@ check_testcase () {
         ;;
     http3 )
         echo "supported"
-        QUICHE_CLIENT=http3-client
-        QUICHE_SERVER=http3-server
         ;;
     *)
         echo "unsupported"
@@ -47,10 +45,8 @@ check_testcase () {
 run_quiche_client_tests () {
     for req in $REQUESTS
     do
-        # get path only from the url
-        file=$(echo $req | perl -F'/' -an -e 'print $F[-1]')
         $QUICHE_DIR/$QUICHE_CLIENT $QUICHE_CLIENT_OPT \
-            $CLIENT_PARAMS $req > $DOWNLOAD_DIR/$file 2> $LOG || exit 127
+            $CLIENT_PARAMS $req 2> $LOG || exit 127
     done
 }
 
